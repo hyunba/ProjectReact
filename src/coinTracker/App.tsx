@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const GlobalStyle = createGlobalStyle `
 @import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
@@ -70,8 +71,10 @@ function App() {
     <>
       <GlobalStyle />
       <Router />
+      <ReactQueryDevtools initialIsOpen={true} />
     </>
   );
+  // Devtools를 사용하게되면 시각적으로 react query에 캐시에 있는 query를 볼 수 있다.
 }
 
 export default App;

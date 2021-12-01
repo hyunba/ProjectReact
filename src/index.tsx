@@ -1,14 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { ThemeProvider } from "styled-components";
 import App from "./coinTracker/App";
 import { theme } from "./theme";
 
+const queryClient = new QueryClient()
+
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme = {theme}>
-      <App />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme = {theme}>
+        <App />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
+// themeProvider는 안에 있는 모든 것이 {theme}으로 접근할 수 있다는 것을 의미
+// react query도 같은 맥락으로 queryClientProvider안에 있는 모든 것은 {queryClient}로 접근한다

@@ -146,9 +146,7 @@ function Coin() {
     const { state }= useLocation<RouteState>();
     const priceMatch = useRouteMatch("/:coinId/price");
     const chartMatch = useRouteMatch(`/:coinId/chart`);
-    const {isLoading: infoLoading, data: infoData} = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId));
-    const {isLoading: tickersLoading, data: tickersData} = useQuery<PriceData>(["tickers", coinId], () => fetchCoinTickers(coinId));
-/*    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [info, setInfo] = useState<InfoData>();
     const [priceInfo, setPriceInfo] = useState<PriceData>();
     //useRouteMatch는 특정한 URL에 있는지의 여부를 알려주는 Hook이다.
@@ -164,14 +162,14 @@ function Coin() {
         setPriceInfo(priceData);
         setLoading(false);
         })();
-    }, [coinId]); */
+    }, [coinId]);
 // useEffect에서 [] 빈값으로 두게되면 한번만 실행하는데 [coinId]를 넣게되면 coinId 값이 변경될때마다 변하게된다.
-    const loading = infoLoading || tickersLoading;
+
     return (
         <Container>
             <Header>
                 <Title>
-                    {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+                    {state?.name ? state.name : loading ? "Loading..." : info?.name}
                 </Title>
             </Header>
             {loading ? (
@@ -181,26 +179,26 @@ function Coin() {
              <Overview>
                 <OverviewItem>
                     <span>Rank:</span>
-                    <span>{infoData?.rank}</span>
+                    <span>{info?.rank}</span>
                 </OverviewItem>
                 <OverviewItem>
                     <span>Symbol:</span>
-                    <span>${infoData?.symbol}</span>
+                    <span>${info?.symbol}</span>
                 </OverviewItem>
                 <OverviewItem>
                     <span>Open Source:</span>
-                    <span>{infoData?.open_source ? "Yes" : "No"}</span>
+                    <span>{info?.open_source ? "Yes" : "No"}</span>
                 </OverviewItem>
             </Overview>
-            <Description>{infoData?.description}</Description>
+            <Description>{info?.description}</Description>
             <Overview>
                 <OverviewItem>
                     <span>Total Suply:</span>
-                    <span>{tickersData?.total_supply}</span>
+                    <span>{priceInfo?.total_supply}</span>
                 </OverviewItem>
                 <OverviewItem>
                     <span>Max Supply:</span>
-                    <span>{tickersData?.max_supply}</span>
+                    <span>{priceInfo?.max_supply}</span>
                 </OverviewItem>
             </Overview>
             <Tabs>

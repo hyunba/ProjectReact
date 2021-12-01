@@ -3,7 +3,6 @@ import {  Link  } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
-//react qury는 데이터를 파괴하지 않고 캐시에 저장하기 때문에 loading이 안뜨게된다.
 
 const Container = styled.div`
     padding: 0px 20px;
@@ -67,12 +66,7 @@ interface CoinInterface {
 }
 
 function Coins() {
-    // useQuery의 hook은 fetchCoins라는 fetcher 함수를 호출하고, fetcher 함수가 loading중이라면 react query는 알려준다.
-    // useQuery가 fetcher 함수를 부르고 fetcher 함수가 끝나게되면 react query는 api.ts에 작성한 json을 {data}라는 곳에 들어가게된다.
-    // react query를 사용해서 밑에서 작성한 10줄의 코드가 한줄의 코드와 동일한 기능을 하게된다.
-    const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins)
-
-/*    const [coins, setCoins] = useState<CoinInterface[]>([]);
+    const [coins, setCoins] = useState<CoinInterface[]>([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         (async() => {
@@ -81,17 +75,15 @@ function Coins() {
             setCoins(json.slice(0, 100)); //slice를 사용함으로써 9028개의 코인이 100개 까지만 출력되게한다.
             setLoading(false); // json이 100까지 다 출력하면 false로 Loading을 끝낸다.
         })();// ()(); 이런식으로 작성하면 function이 바로 실행하게된다
-    }, []); */
-
-    //data에 slice를 직접 넣어주어서 100개 까지만 출력하게 해준다.
+    }, []);
     return (
         <Container>
             <Header>
                 <Title>Coins</Title>
             </Header>
-            {isLoading ? (<Loader>"Loading..."</Loader>) : (
+            {loading ? (<Loader>"Loading..."</Loader>) : (
             <CoinsList>
-                {data?.slice(0, 100).map((coin) => (
+                {coins.map((coin) => (
                     <Coin key={coin.id}>
                         <Link to={{
                             pathname:`/${coin.id}`,
