@@ -3,9 +3,9 @@ import { useQuery } from "react-query";
 import { Switch, Route, useLocation, useParams, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo, fetchCoinTickers } from "../api";
-import Chart from "./Chart";
-import Price from "./Price";
+// import { fetchCoinInfo, fetchCoinTickers } from "../api";
+// import Chart from "./Chart";
+// import Price from "./Price";
 
 interface RouteParams {
     coinId: string;
@@ -211,10 +211,10 @@ function Coin() {
             </Tabs>
             <Switch>
                 <Route path={`/${coinId}/price`}>
-                    <Price />
+                
                 </Route>
                 <Route path={`/${coinId}/chart`}>                    
-                    <Chart />
+                    
                 </Route>
             </Switch>
             </>
