@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {  Link  } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 //react qury는 데이터를 파괴하지 않고 캐시에 저장하기 때문에 loading이 안뜨게된다.
@@ -84,8 +84,15 @@ function Coins() {
     }, []); */
 
     //data에 slice를 직접 넣어주어서 100개 까지만 출력하게 해준다.
+    
+    //Helmet을 넣어준건 React App 이라는 홈페이지 이름을 바꿔주기 위해 사용
     return (
         <Container>
+            <Helmet>
+                <title>
+                   coin tracker
+                </title>
+            </Helmet>
             <Header>
                 <Title>Coins</Title>
             </Header>

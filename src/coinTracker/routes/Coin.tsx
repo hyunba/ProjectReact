@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { Helmet } from "react-helmet";
 import { Switch, Route, useLocation, useParams, useRouteMatch } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -140,6 +140,16 @@ const Tab = styled.span<{ isActive: boolean }>`
   }
 `;
 
+const BackSpace = styled.button`
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin: 20px 0px;
+    font-size: 13px;
+    display: flex;
+    text-transform: uppercase;
+    color: ${(props) => props.theme.textColor};
+`
+
 function Coin() {
     
     const { coinId } = useParams<RouteParams>();
@@ -167,8 +177,14 @@ function Coin() {
     }, [coinId]); */
 // useEffect에서 [] 빈값으로 두게되면 한번만 실행하는데 [coinId]를 넣게되면 coinId 값이 변경될때마다 변하게된다.
     const loading = infoLoading || tickersLoading;
+// Helmet은 무엇을 render하던 문서의 head로 보내주는 역할을 한다. title을 넣었으니 문서의 head로 보내준다.
     return (
         <Container>
+            <Helmet>
+                <title>
+                    {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
+                </title>
+            </Helmet>
             <Header>
                 <Title>
                     {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -188,8 +204,8 @@ function Coin() {
                     <span>${infoData?.symbol}</span>
                 </OverviewItem>
                 <OverviewItem>
-                    <span>Open Source:</span>
-                    <span>{infoData?.open_source ? "Yes" : "No"}</span>
+                    <span>Price:</span>
+                    <span>{tickersData?.quotes.USD.price.toFixed(2)}</span>
                 </OverviewItem>
             </Overview>
             <Description>{infoData?.description}</Description>
@@ -213,7 +229,7 @@ function Coin() {
             </Tabs>
             <Switch>
                 <Route path={`/${coinId}/price`}>
-                    <Price />
+                    <Price coinId={coinId} tickersData={tickersData}/>
                 </Route>
                 <Route path={`/${coinId}/chart`}>                    
                     <Chart coinId = {coinId} />
@@ -221,6 +237,9 @@ function Coin() {
             </Switch>
             </>
       )}
+        <BackSpace>
+            <Link to={{pathname:`/`}}>Back</Link>
+        </BackSpace>
         </Container>
     );// API에는 state안에 name, 즉 코인들의 이름이 들어있기 때문에 로딩이 빠르다.
       // state에 ?의 의미는 state가 존재하면 name을 가져오고 없을 경우 Loading을 한다는 뜻이다.
