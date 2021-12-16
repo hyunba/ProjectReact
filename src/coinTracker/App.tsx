@@ -1,6 +1,8 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { blackTheme, lightTheme } from "../theme";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle `
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
@@ -66,12 +68,16 @@ body{
 `;
 
 function App() {
-
+  const [isBlack, setIsBlack] = useState(false);
+  const toggleBlack = () => setIsBlack((current) => !current);
   return (
     <>
+    <ThemeProvider theme = {isBlack ? blackTheme : lightTheme}>
+      <button onClick={toggleBlack}>click</button>
       <GlobalStyle />
       <Router />
       <ReactQueryDevtools initialIsOpen={true} />
+    </ThemeProvider>
     </>
   );
   // Devtools를 사용하게되면 시각적으로 react query에 캐시에 있는 query를 볼 수 있다.
