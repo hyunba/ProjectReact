@@ -3,6 +3,8 @@ import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { blackTheme, lightTheme } from "../theme";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const GlobalStyle = createGlobalStyle `
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
@@ -68,12 +70,10 @@ body{
 `;
 
 function App() {
-  const [isBlack, setIsBlack] = useState(false);
-  const toggleBlack = () => setIsBlack((current) => !current);
+  const isDark = useRecoilValue(isDarkAtom); //atoms파일을 useRecoilValue를 사용해서 만들어준다.
   return (
     <>
-    <ThemeProvider theme = {isBlack ? blackTheme : lightTheme}>
-      <button onClick={toggleBlack}>click</button>
+    <ThemeProvider theme = {isDark ? blackTheme : lightTheme}>
       <GlobalStyle />
       <Router />
       <ReactQueryDevtools initialIsOpen={true} />
