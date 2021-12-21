@@ -3,6 +3,8 @@ import {  Link  } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 //react qury는 데이터를 파괴하지 않고 캐시에 저장하기 때문에 loading이 안뜨게된다.
 
 const Container = styled.div`
@@ -85,8 +87,11 @@ function Coins() {
     }, []); */
 
     //data에 slice를 직접 넣어주어서 100개 까지만 출력하게 해준다.
-    
     //Helmet을 넣어준건 React App 이라는 홈페이지 이름을 바꿔주기 위해 사용
+
+    const setAtom = useSetRecoilState(isDarkAtom);
+    const toggleAtom = () => setAtom((prev) => !prev);
+
     return (
         <Container>
             <Helmet>
@@ -96,6 +101,7 @@ function Coins() {
             </Helmet>
             <Header>
                 <Title>Coins</Title>
+                <button onClick={toggleAtom}>Toggle Mode</button>
             </Header>
             {isLoading ? (<Loader>"Loading..."</Loader>) : (
             <CoinsList>
