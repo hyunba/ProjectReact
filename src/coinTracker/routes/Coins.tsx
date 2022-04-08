@@ -53,10 +53,18 @@ const Loader = styled.span`
     padding: 20px;
 `;
 
-const Img = styled.img`
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
+// const Img = styled.img`
+//     width: 25px;
+//     height: 25px;
+//     margin-right: 10px;
+// `;
+
+const Btn = styled.button`
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 5px;
+    
 `;
 
 interface CoinInterface {
@@ -101,7 +109,7 @@ function Coins() {
             </Helmet>
             <Header>
                 <Title>Coins</Title>
-                <button onClick={toggleAtom}>Toggle Mode</button>
+                <Btn onClick={toggleAtom}>Toggle Mode</Btn>
             </Header>
             {isLoading ? (<Loader>"Loading..."</Loader>) : (
             <CoinsList>
@@ -111,7 +119,7 @@ function Coins() {
                             pathname:`/${coin.id}`,
                             state: { name: coin.name },    
                         }}>
-                            <Img src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} />
+                            {/* <Img src={`https://cryptoicon-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`} /> */}
                                 {coin.name} &rarr;</Link>
                     </Coin>
                 ))}
